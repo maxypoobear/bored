@@ -1,0 +1,113 @@
+app.py
+"""
+This script runs the application using a development server.
+It contains the definition of routes and views for the application.
+"""
+# DO NOT TOUCH!
+from flask import Flask
+app = Flask(__name__)
+
+# Make the WSGI interface available at the top level so wfastcgi can get it.
+wsgi_app = app.wsgi_app
+# DO NOT TOUCH!
+
+#Left off at 54:17 in tutorial https://youtu.be/M1IVwFAH9Wo?t=1h49m11s 2hrs
+
+#Import all of our routes from routes.py
+from routes import *;
+
+# Launching our server
+if __name__ == '__main__':
+    import os
+    HOST = os.environ.get('SERVER_HOST', 'localhost')
+    try:
+        PORT = int(os.environ.get('SERVER_PORT', '5555'))
+    except ValueError:
+        PORT = 5555
+    app.run(HOST, PORT)
+
+
+
+
+routes.py
+from flask import Flask, url_for;
+from app import app;
+
+# Server/
+@app.route('/')
+def createLink():
+   createLink = "<a href='" + url_for('create') + "'>Create a question</a>";
+   return """<html>
+                <head>
+                    <title>Hello, world!</title>
+                </head>
+                <body>
+                    """ + createLink + """
+                </body>
+            </html>""";
+
+
+# server/create
+@app.route('/create')
+def create():
+    return "<h2>This is the create page!</h2>";
+
+# server/question/<title>
+@app.route('/question/<title>')
+def question(title):
+    return "<h2>" + title + '</h2>';
+    
+    
+    createQuestion.html
+    <!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Create a new question</title>
+</head>
+<body>
+    <h2>Please create a new question</h2>
+    <form method="post">
+        <div>
+            <label for="title">Title</label>
+            <input name="title" type="text" />
+        </div>
+        <div>
+            <label for="question">Title</label>
+            <input name="question" type="text" />
+        </div>
+        <div>
+            <label for="answer">Title</label>
+            <input name="answer" type="text" />
+        </div>
+        <div>
+            <button for="submit">Submit question</button>
+        </div>
+    </form>
+</body>
+</html>
+
+answerQuestion.html
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Answer question</title>
+</head>
+<body>
+    <h2> Question: </h2>
+    <form method="post">
+        <div>
+            <label for="answer">Answer:</label>
+            <input type="text" name="answer" />
+        </div>
+        <div>
+            <button type="submit">Submit Answer</button>
+        </div>
+    </form>
+</body>
+</html>
+
+    
